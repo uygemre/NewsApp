@@ -1,4 +1,4 @@
-package com.uygemre.retrofitexample
+package com.uygemre.newsapp
 
 import org.junit.Test
 

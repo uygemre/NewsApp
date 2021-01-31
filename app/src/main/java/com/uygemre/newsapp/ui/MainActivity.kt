@@ -1,28 +1,26 @@
-package com.uygemre.retrofitexample.ui
+package com.uygemre.newsapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.uygemre.retrofitexample.R
-import com.uygemre.retrofitexample.adapter.NewsRecyclerViewAdapter
-import com.uygemre.retrofitexample.adapter.NewsRecyclerViewClickListener
-import com.uygemre.retrofitexample.dto.NewsDTO
-import com.uygemre.retrofitexample.model.IBaseModel
-import com.uygemre.retrofitexample.model.NewsModel
-import com.uygemre.retrofitexample.network.NewsRetrofitFactory
+import com.uygemre.newsapp.R
+import com.uygemre.newsapp.adapter.NewsRecyclerViewAdapter
+import com.uygemre.newsapp.adapter.NewsRecyclerViewClickListener
+import com.uygemre.newsapp.dto.NewsDTO
+import com.uygemre.newsapp.model.IBaseModel
+import com.uygemre.newsapp.model.NewsModel
+import com.uygemre.newsapp.network.NewsRetrofitFactory
+import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var recyclerViewNewsAdapter : NewsRecyclerViewAdapter
-    lateinit var recyclerViewNews : RecyclerView
+    lateinit var recyclerViewNewsAdapter: NewsRecyclerViewAdapter
     private val newsList = mutableListOf<IBaseModel>()
 
-    var recyclerViewClickListener=object:NewsRecyclerViewClickListener{
+    var recyclerViewClickListener = object : NewsRecyclerViewClickListener {
         override fun onClickListener(position: Int, model: IBaseModel) {
 
         }
@@ -35,34 +33,37 @@ class MainActivity : AppCompatActivity() {
         getRecyclerViewAdapter()
 
         val apiService = NewsRetrofitFactory.getNewsInformation().getNews()
-        apiService.enqueue(object:Callback<NewsModel>{
+        apiService.enqueue(object : Callback<NewsModel> {
             override fun onFailure(call: Call<NewsModel>, t: Throwable) {
-
             }
+
             override fun onResponse(call: Call<NewsModel>, response: Response<NewsModel>) {
                 response.body().let {
-                    it!!.result.forEach {
-                        var news= NewsDTO(
-                            description = it.description,
-                            name = it.name,
-                            image = it.image,
-                            url = it.url
+                    it?.result?.map { result ->
+                        val news = NewsDTO(
+                            description = result?.description ?: "",
+                            name = result?.name ?: "",
+                            image = result?.image ?: "",
+                            url = result?.url ?: ""
                         )
+
                         newsList.add(news)
                     }
+
                     recyclerViewNewsAdapter.notifyDataSetChanged()
                 }
             }
         })
     }
+
     private fun getRecyclerViewAdapter() {
-        recyclerViewNews = findViewById(R.id.list_news_recyclerview)
         recyclerViewNewsAdapter = NewsRecyclerViewAdapter(newsList, recyclerViewClickListener)
-        recyclerViewNews.layoutManager = LinearLayoutManager(
+        list_news_recyclerview.layoutManager = LinearLayoutManager(
             applicationContext,
             LinearLayoutManager.VERTICAL,
             false
         )
-        recyclerViewNews.adapter = recyclerViewNewsAdapter
+
+        list_news_recyclerview.adapter = recyclerViewNewsAdapter
     }
 }

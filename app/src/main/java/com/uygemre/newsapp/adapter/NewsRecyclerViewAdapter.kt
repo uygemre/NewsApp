@@ -1,12 +1,12 @@
-package com.uygemre.retrofitexample.adapter
+package com.uygemre.newsapp.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.uygemre.retrofitexample.R
-import com.uygemre.retrofitexample.model.IBaseModel
-import com.uygemre.retrofitexample.viewholder.BaseViewHolder
-import viewholder.NewsViewHolder
+import com.uygemre.newsapp.R
+import com.uygemre.newsapp.model.IBaseModel
+import com.uygemre.newsapp.viewholder.BaseViewHolder
+import com.uygemre.newsapp.viewholder.NewsViewHolder
 
 class NewsRecyclerViewAdapter(
     var items: MutableList<IBaseModel>,
@@ -41,6 +41,6 @@ class NewsRecyclerViewAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return items[position].type
+        return items[position].type ?: 0
     }
 }

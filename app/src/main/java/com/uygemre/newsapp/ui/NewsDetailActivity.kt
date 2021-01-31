@@ -1,27 +1,26 @@
-package com.uygemre.retrofitexample.ui
+package com.uygemre.newsapp.ui
 
 import android.os.Bundle
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
-import com.uygemre.retrofitexample.R
+import com.uygemre.newsapp.R
+import kotlinx.android.synthetic.main.activity_news_detail.*
 
 class NewsDetailActivity : AppCompatActivity() {
-
-    lateinit var webView: WebView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_detail)
 
-        var url = intent.getStringExtra("url")
-        webView = findViewById(R.id.newsWebView)
-        webView.webViewClient = object : WebViewClient() {
+        val url = intent.getStringExtra("url")
+        newsWebView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                 view?.loadUrl(url)
                 return true
             }
         }
-        webView.loadUrl(url)
+
+        newsWebView.loadUrl(url)
     }
 }

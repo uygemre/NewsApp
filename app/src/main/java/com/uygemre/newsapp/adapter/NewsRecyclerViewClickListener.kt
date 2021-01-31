@@ -1,6 +1,6 @@
-package com.uygemre.retrofitexample.adapter
+package com.uygemre.newsapp.adapter
 
-import com.uygemre.retrofitexample.model.IBaseModel
+import com.uygemre.newsapp.model.IBaseModel
 
 interface NewsRecyclerViewClickListener {
     fun onClickListener(position: Int, model: IBaseModel)
